@@ -3,8 +3,8 @@
 /* @var $this yii\web\View */
 
 use yii\helpers\Html;
-use frontend\models\Companies;
-use frontend\models\Barracks;
+use frontend\models\Tickets;
+use frontend\models\User;
 use yii\grid\GridView;
 use yii\widgets\ActiveForm;
 
@@ -12,10 +12,12 @@ echo GridView::widget([
     'dataProvider' => $list,
     'columns' => [
         'id',
-        'name',
-        'number',
-        'barracks.name'
+        'title',
+        'description',
+        'picture',
+        'is_open',
+        'date',
+        'user_id'
         
     ],
 ]);
-

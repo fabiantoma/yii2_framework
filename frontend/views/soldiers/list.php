@@ -9,4 +9,12 @@ use yii\widgets\ActiveForm;
 
 echo GridView::widget([
     'dataProvider' => $list,
+    'columns' => [
+        'id',
+        'name',
+        'rank',
+        'companies.name',
+        'tasks.name'
+        
+    ],
 ]);

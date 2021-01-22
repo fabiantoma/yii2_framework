@@ -57,7 +57,7 @@ class DefenceForcesController extends \yii\web\Controller
         $dataProvider = new ActiveDataProvider([
             'query' => $list,
             'pagination' => [
-                'pageSize' => 5,
+                'pageSize' => 10,
             ],
         ]);
 

@@ -10,6 +10,7 @@ use yii\widgets\ActiveForm;
 $form = ActiveForm::begin([]) ?>
     <?= $form->field($company, 'name') ?>
     <?= $form->field($company, 'number') ?>
+    <?= $form->field($company, 'barracks_id')->dropDownList($items) ?>
 
     <div class="form-group">
         <div class="col-lg-offset-1 col-lg-11">

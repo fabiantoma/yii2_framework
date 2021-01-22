@@ -3,15 +3,17 @@
 /* @var $this yii\web\View */
 /* @var $soldier Soldiers */
 use yii\helpers\Html;
-use frontend\models\Soldiers;
+use frontend\models\Tickets;
 
 use yii\widgets\ActiveForm;
 
 $form = ActiveForm::begin([]) ?>
-    <?= $form->field($soldier, 'name') ?>
-    <?= $form->field($soldier, 'rank') ?>
-    <?= $form->field($soldier, 'companies_id')->dropDownList($items) ?>
-    <?= $form->field($soldier, 'tasks_id')->dropDownList($tasks_items) ?>
+    <?= $form->field($ticket, 'title') ?>
+    <?= $form->field($ticket, 'description') ?>
+    <?= $form->field($ticket, 'picture') ?>
+    <?= $form->field($ticket, 'is_open') ?>
+    <?= $form->field($ticket, 'date') ?>
+    <?= $form->field($ticket, 'user_id')->dropDownList($tickets_items) ?>
     <div class="form-group">
         <div class="col-lg-offset-1 col-lg-11">
             <?= Html::submitButton('Add', ['class' => 'btn btn-primary']) ?>

@@ -47,7 +47,7 @@ class Barracks extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Name',
             'number' => 'Number',
-            'df_id' => 'Df ID',
+            'df_id' => 'Defence Forces',
         ];
     }
 

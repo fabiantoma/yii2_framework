@@ -2,7 +2,10 @@
 
 namespace frontend\controllers;
 
+
+
 use app\models\Companies;
+use app\models\Barracks;
 use yii\filters\AccessControl;
 use Yii;
 
@@ -41,6 +44,16 @@ class CompaniesController extends \yii\web\Controller
     {
         $company = new Companies();
 
+
+        $item = Barracks::find()->all();
+
+        $items=[];
+
+        foreach($item as  $bk){
+            
+           $items[$bk->id]=$bk->name;
+        }
+
         if(Yii::$app->request->post()&& $company->load(Yii::$app->request->post())){
             $company->save();
             
@@ -50,7 +63,7 @@ class CompaniesController extends \yii\web\Controller
 
 
 
-        return $this->render('add', ['company' => $company]);
+        return $this->render('add', ['company' => $company,'items'=>$items]);
     }
     public function actionList()
     {
@@ -60,7 +73,7 @@ class CompaniesController extends \yii\web\Controller
         $dataProvider = new ActiveDataProvider([
             'query' => $list,
             'pagination' => [
-                'pageSize' => 5,
+                'pageSize' => 10,
             ],
         ]);
 
