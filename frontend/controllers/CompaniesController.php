@@ -23,7 +23,7 @@ class CompaniesController extends \yii\web\Controller
                 'rules' => [
                   
                     [
-                        'actions' => ['index','add','list'],//csak user//
+                        'actions' => ['index','add','list','delete'],//csak user//
                         'allow' => true,
                         'roles' => ['@'],//bejelentkezett felfasználó//
                     ],
@@ -82,6 +82,38 @@ class CompaniesController extends \yii\web\Controller
 
         return $this->render('list', ['list' => $dataProvider]);
     }
+    public function actionDelete(){
 
+        $request=Yii::$app->request->post('delete_id');
+        
+        $model=Companies::find()->where(['id'=>$request])->one();
+        //Companies::deleteAll()
+        if(isset($model)){
+            $model->delete();
+    
+    
+     
+           //$model->save();
+        }
+    
+    return $this->redirect(['companies/list']);
+       }
+    
+       public function actionUpdate(){
+    
+        $request=Yii::$app->request->post('update_id');
+        
+        $model=Companies::find()->where(['id'=>$request])->one();
+        
+        if(isset($model)){
+         
+    
+    
+           $model->name='';
+           $model->save();
+        }
+    
+    return $this->redirect(['companies/list']);
+       }
 
 }

@@ -13,7 +13,7 @@ $form = ActiveForm::begin([]) ?>
     <?= $form->field($ticket, 'picture') ?>
     <?= $form->field($ticket, 'is_open') ?>
     <?= $form->field($ticket, 'date') ?>
-    <?= $form->field($ticket, 'user_id')->dropDownList($tickets_items) ?>
+    <?= $form->field($ticket, 'user_id')->dropDownList($items) ?>
     <div class="form-group">
         <div class="col-lg-offset-1 col-lg-11">
             <?= Html::submitButton('Add', ['class' => 'btn btn-primary']) ?>
