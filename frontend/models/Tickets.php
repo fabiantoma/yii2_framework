@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use common\models\User;
 
+
 /**
  * This is the model class for table "tickets".
  *
@@ -32,15 +33,35 @@ class Tickets extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+
+      /**
+     * @var UploadedFile
+     */
+    public $imageFile;
+
     public function rules()
     {
         return [
             [['title', 'description', 'date', 'user_id'], 'required'],
             [['is_open', 'user_id'], 'integer'],
             [['date'], 'safe'],
-            [['title', 'description', 'picture'], 'string', 'max' => 255],
+            [['imageFile'], 'file'],
+            [['title', 'description','picture'], 'string', 'max' => 255],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
+    }
+
+    public function upload()
+    {
+        if ($this->validate()) {
+            if(!file_exists ('uploads')){
+                mkdir('uploads');
+            }
+            $this->imageFile->saveAs('uploads/' . $this->imageFile->baseName . '.' . $this->imageFile->extension);
+            return 'uploads/' . $this->imageFile->baseName . '.' . $this->imageFile->extension;
+        } else {
+            return false;
+        }
     }
 
     /**

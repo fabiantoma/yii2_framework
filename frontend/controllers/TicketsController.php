@@ -4,10 +4,11 @@ namespace frontend\controllers;
 
 
 use app\models\Tickets;
-use app\models\User;
+use common\models\User;
 use yii\filters\AccessControl;
 use Yii;
-
+use app\models\UploadForm;
+use yii\web\UploadedFile;
 use yii\data\ActiveDataProvider;
 
 class TicketsController extends \yii\web\Controller
@@ -23,7 +24,7 @@ class TicketsController extends \yii\web\Controller
                 'rules' => [
                   
                     [
-                        'actions' => ['index','add','list','delete'],//csak user//
+                        'actions' => ['index','add','list','delete','ticket_view'],//csak user//
                         'allow' => true,
                         'roles' => ['@'],//bejelentkezett felfasználó//
                     ],
@@ -33,6 +34,7 @@ class TicketsController extends \yii\web\Controller
         ];
     }
 
+   
     public function actionIndex()
     {
         return $this->render('index');
@@ -41,31 +43,27 @@ class TicketsController extends \yii\web\Controller
     {
         $ticket = new Tickets();
 
-
-        $item = User::find()->all();
-
-        $items=[];
-
-        foreach($item as  $user){
-            
-           $items[$user->id]=$user->title;
-        }
-
         if(Yii::$app->request->post()&& $ticket->load(Yii::$app->request->post())){
-            $ticket->save();
-            
-            $ticket= new Tickets();
+           
+            $ticket->date=date("Y-m-d H:i:s");
+            $ticket->user_id = Yii::$app->user->id;
+            $ticket->imageFile = UploadedFile::getInstance($ticket, 'imageFile');
+            $p=$ticket->upload();
+            if ( $p!=false) {
+              $ticket->picture=$p;  // file is uploaded successfully
+            }
+            $ticket->validate();
+            if ($ticket->validate()==true&& $ticket->save()==true){
+                $ticket= new Tickets();
+            }
         }
-
-
-
-
-        return $this->render('add', ['ticket' => $ticket,'items'=>$items]);
+        return $this->render('add', ['ticket' => $ticket,]);
     }
+
+
     public function actionList()
     {
-        $list =Tickets::find();
-        
+        $list =Tickets::find()->andWhere(['user_id' => Yii::$app->user->id]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $list,
@@ -74,23 +72,51 @@ class TicketsController extends \yii\web\Controller
             ],
         ]);
 
-
-
-
         return $this->render('list', ['list' => $dataProvider]);
     }
+
+    public function actionView()
+
+    {
+        $ticket = new Tickets();
+
+       
+        $item =Tickets::find()->andWhere(['user_id' => Yii::$app->user->id] && $ticket->discriptions);
+
+        
+        //$ticket->comments=$ticket->dicriptions//
+
+        $items=[];
+
+        foreach($item as  $comment){
+            
+           $items[$comment->id]=$comment->name;
+        }
+        var_dump($items);
+        return $this->render('ticket_view', ['ticket' =>$ticket ,'items'=>$items]);
+    }
+
+
+//actionView(){   } id alapján lekérdezni a ticketet,csak a saját userhez szabad,andwhere feltétel
+//lekérdezni az ehhez a tickethez tartozó kommenteket,comments->find()->where ticket id =a visszakapott ticket-nek az idjaval
+//átadni a viewnak és aforech-el kilistázni 
+
+
+
+
     public function actionDelete(){
 
-        $request=Yii::$app->request->post('delete_id');
+        $request=Yii::$app->request->get('id');
         
-        $model=Tickets::find()->where(['id'=>$request])->one();
-        //Companies::deleteAll()
+        $model=Tickets::find()->where(['id'=>$request])->andWhere(['user_id'=>Yii::$app->user->id])->one();
+        // kigyűjtjük az összes hibajegyeket ahol az id az az ehhez való user id,majd hozzárendeljük a one függvényt//
         if(isset($model)){
+            //ha létezik ez akkor törli//
             $model->delete();
     
     
      
-           //$model->save();
+          
         }
     
     return $this->redirect(['tickets/list']);
@@ -109,6 +135,6 @@ class TicketsController extends \yii\web\Controller
            $model->save();
         }
     
-    return $this->redirect(['companies/list']);
+    return $this->redirect(['tickets/list']);
        }
 }

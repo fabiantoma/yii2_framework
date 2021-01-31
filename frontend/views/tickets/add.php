@@ -1,19 +1,16 @@
 <?php
 
 /* @var $this yii\web\View */
-/* @var $soldier Soldiers */
+/* @var $ticket Tickets */
 use yii\helpers\Html;
 use frontend\models\Tickets;
 
 use yii\widgets\ActiveForm;
 
-$form = ActiveForm::begin([]) ?>
+$form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
     <?= $form->field($ticket, 'title') ?>
     <?= $form->field($ticket, 'description') ?>
-    <?= $form->field($ticket, 'picture') ?>
-    <?= $form->field($ticket, 'is_open') ?>
-    <?= $form->field($ticket, 'date') ?>
-    <?= $form->field($ticket, 'user_id')->dropDownList($items) ?>
+    <?= $form->field($ticket, 'imageFile')->fileInput() ?>
     <div class="form-group">
         <div class="col-lg-offset-1 col-lg-11">
             <?= Html::submitButton('Add', ['class' => 'btn btn-primary']) ?>

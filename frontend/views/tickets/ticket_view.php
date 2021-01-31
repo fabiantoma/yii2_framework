@@ -1,7 +1,7 @@
 <?php
 
 /* @var $this yii\web\View */
-
+/* @var $ticket Tickets */
 use yii\helpers\Html;
 use frontend\models\Tickets;
 use frontend\models\User;
