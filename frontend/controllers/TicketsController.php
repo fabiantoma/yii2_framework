@@ -81,9 +81,9 @@ class TicketsController extends \yii\web\Controller
         $ticket = new Tickets();
 
        
-        $item =Tickets::find()->andWhere(['user_id' => Yii::$app->user->id] && $ticket->discriptions);
+        $item =Tickets::find()->andWhere(['user_id' => Yii::$app->user->id] && $ticket->description);
 
-        
+        //$comment->find()->andWhere(['user_id' => Yii::$app->user->id]);
         //$ticket->comments=$ticket->dicriptions//
 
         $items=[];
@@ -92,8 +92,8 @@ class TicketsController extends \yii\web\Controller
             
            $items[$comment->id]=$comment->name;
         }
-        var_dump($items);
-        return $this->render('ticket_view', ['ticket' =>$ticket ,'items'=>$items]);
+        
+        return $this->render('list', ['ticket' =>$ticket ,'items'=>$items]);
     }
 
 

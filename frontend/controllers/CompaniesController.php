@@ -60,11 +60,9 @@ class CompaniesController extends \yii\web\Controller
             $company= new Companies();
         }
 
-
-
-
         return $this->render('add', ['company' => $company,'items'=>$items]);
     }
+    
     public function actionList()
     {
         $list =Companies::find();
