@@ -99,4 +99,10 @@ class Tickets extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
+
+    public function getImageurl()
+    {
+    return \Yii::$app->request->BaseUrl.'/@web/uploads/'.$this->logo;
+    }
+
 }

@@ -114,4 +114,6 @@ return $this->redirect(['barracks/list']);
 return $this->redirect(['barracks/list']);
    }
 
+   
+
 }

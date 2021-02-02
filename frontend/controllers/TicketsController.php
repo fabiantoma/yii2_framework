@@ -10,6 +10,8 @@ use Yii;
 use app\models\UploadForm;
 use yii\web\UploadedFile;
 use yii\data\ActiveDataProvider;
+use app\models\Comments;
+
 
 class TicketsController extends \yii\web\Controller
 {
@@ -24,7 +26,7 @@ class TicketsController extends \yii\web\Controller
                 'rules' => [
                   
                     [
-                        'actions' => ['index','add','list','delete','ticket_view'],//csak user//
+                        'actions' => ['index','add','list','delete','view'],//csak user//
                         'allow' => true,
                         'roles' => ['@'],//bejelentkezett felfasználó//
                     ],
@@ -44,11 +46,13 @@ class TicketsController extends \yii\web\Controller
         $ticket = new Tickets();
 
         if(Yii::$app->request->post()&& $ticket->load(Yii::$app->request->post())){
-           
+           //mahuálisan beállított értékek amit a reuestben nincsenek beenne//
             $ticket->date=date("Y-m-d H:i:s");
             $ticket->user_id = Yii::$app->user->id;
+            //kép feltöltés értkeinek meghatározása//
             $ticket->imageFile = UploadedFile::getInstance($ticket, 'imageFile');
             $p=$ticket->upload();
+
             if ( $p!=false) {
               $ticket->picture=$p;  // file is uploaded successfully
             }
@@ -79,21 +83,34 @@ class TicketsController extends \yii\web\Controller
 
     {
         $ticket = new Tickets();
+        $comment= new Comments;
+        $request=Yii::$app->request->get('id');
 
-       
-        $item =Tickets::find()->andWhere(['user_id' => Yii::$app->user->id] && $ticket->description);
-
-        //$comment->find()->andWhere(['user_id' => Yii::$app->user->id]);
-        //$ticket->comments=$ticket->dicriptions//
-
-        $items=[];
-
-        foreach($item as  $comment){
+        if(Yii::$app->request->post()&& $comment->load(Yii::$app->request->post())){
+           
+            $comment->date=date("Y-m-d H:i:s");
+            $comment->user_id = Yii::$app->user->id;
+            $comment->tickets_id = $request;
+              
             
-           $items[$comment->id]=$comment->name;
+           
+            if ($comment->validate()==true&& $comment->save()==true){
+                $comment= new Comments();
+            }
+        }
+       
+
+        $ticket= new Tickets();
+
+        
+        
+        if(isset($request)){
+            $ticket = Tickets::find()->where(['id'=>$request])->andWhere(['user_id'=>Yii::$app->user->id])->one();;
+            $comments= Comments::find()->where(['tickets_id'=>$ticket->id])->all();
+    
         }
         
-        return $this->render('list', ['ticket' =>$ticket ,'items'=>$items]);
+        return $this->render('view', ['ticket' =>$ticket ,'comment'=>$comment ,'comments'=> $comments]);
     }
 
 
