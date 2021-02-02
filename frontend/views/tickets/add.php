@@ -1,17 +1,16 @@
 <?php
 
 /* @var $this yii\web\View */
-/* @var $barrack Barracks */
+/* @var $ticket Tickets */
 use yii\helpers\Html;
-use frontend\models\Barracks;
+use frontend\models\Tickets;
 
 use yii\widgets\ActiveForm;
 
-$form = ActiveForm::begin([]) ?>
-    <?= $form->field($barrack, 'name') ?>
-    <?= $form->field($barrack, 'number') ?>
-    <?= $form->field($barrack, 'df_id')->dropDownList($items) ?>
-
+$form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
+    <?= $form->field($ticket, 'title') ?>
+    <?= $form->field($ticket, 'description') ?>
+    <?= $form->field($ticket, 'imageFile')->fileInput() ?>
     <div class="form-group">
         <div class="col-lg-offset-1 col-lg-11">
             <?= Html::submitButton('Add', ['class' => 'btn btn-primary']) ?>

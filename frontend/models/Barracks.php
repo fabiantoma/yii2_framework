@@ -37,7 +37,19 @@ class Barracks extends \yii\db\ActiveRecord
             [['df_id'], 'exist', 'skipOnError' => true, 'targetClass' => DefenceForces::className(), 'targetAttribute' => ['df_id' => 'id']],
         ];
     }
-
+    public function upload(){
+        //ha validálás lefut akkor és a uploads file létezik akkor létrehoz uploads mappa//
+                if($this->validate()){
+                    if(!file_exists('uploads')){
+                        mkdir('uploads');
+                }
+                //elmenti a uploads mappába a megfelelő formátumba a fájlt//
+                $this->imagefile->saveAs('uploads/' . $this->imagefile->baseName . '.' . $this->imageFile->extension);
+                return 'uploads/' . $this->imageFile->baseName . '.' . $this->imageFile->extension;
+                }else{
+                    return false;
+                }
+            }
     /**
      * {@inheritdoc}
      */
@@ -47,7 +59,7 @@ class Barracks extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Name',
             'number' => 'Number',
-            'df_id' => 'Df ID',
+            'df_id' => 'Defence Forces',
         ];
     }
 
@@ -70,4 +82,6 @@ class Barracks extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Companies::className(), ['barracks_id' => 'id']);
     }
+
+  
 }

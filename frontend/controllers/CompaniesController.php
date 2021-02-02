@@ -2,7 +2,10 @@
 
 namespace frontend\controllers;
 
+
+
 use app\models\Companies;
+use app\models\Barracks;
 use yii\filters\AccessControl;
 use Yii;
 
@@ -20,7 +23,7 @@ class CompaniesController extends \yii\web\Controller
                 'rules' => [
                   
                     [
-                        'actions' => ['index','add','list'],//csak user//
+                        'actions' => ['index','add','list','delete'],//csak user//
                         'allow' => true,
                         'roles' => ['@'],//bejelentkezett felfasználó//
                     ],
@@ -41,17 +44,25 @@ class CompaniesController extends \yii\web\Controller
     {
         $company = new Companies();
 
+
+        $item = Barracks::find()->all();
+
+        $items=[];
+
+        foreach($item as  $bk){
+            
+           $items[$bk->id]=$bk->name;
+        }
+
         if(Yii::$app->request->post()&& $company->load(Yii::$app->request->post())){
             $company->save();
             
             $company= new Companies();
         }
 
-
-
-
-        return $this->render('add', ['company' => $company]);
+        return $this->render('add', ['company' => $company,'items'=>$items]);
     }
+    
     public function actionList()
     {
         $list =Companies::find();
@@ -60,7 +71,7 @@ class CompaniesController extends \yii\web\Controller
         $dataProvider = new ActiveDataProvider([
             'query' => $list,
             'pagination' => [
-                'pageSize' => 5,
+                'pageSize' => 10,
             ],
         ]);
 
@@ -69,6 +80,38 @@ class CompaniesController extends \yii\web\Controller
 
         return $this->render('list', ['list' => $dataProvider]);
     }
+    public function actionDelete(){
 
+        $request=Yii::$app->request->post('delete_id');
+        
+        $model=Companies::find()->where(['id'=>$request])->one();
+        //Companies::deleteAll()
+        if(isset($model)){
+            $model->delete();
+    
+    
+     
+           //$model->save();
+        }
+    
+    return $this->redirect(['companies/list']);
+       }
+    
+       public function actionUpdate(){
+    
+        $request=Yii::$app->request->post('update_id');
+        
+        $model=Companies::find()->where(['id'=>$request])->one();
+        
+        if(isset($model)){
+         
+    
+    
+           $model->name='';
+           $model->save();
+        }
+    
+    return $this->redirect(['companies/list']);
+       }
 
 }
