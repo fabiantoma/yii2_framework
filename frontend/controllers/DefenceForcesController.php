@@ -57,7 +57,7 @@ class DefenceForcesController extends \yii\web\Controller
         $dataProvider = new ActiveDataProvider([
             'query' => $list,
             'pagination' => [
-                'pageSize' => 5,
+                'pageSize' => 10,
             ],
         ]);
 
@@ -66,5 +66,37 @@ class DefenceForcesController extends \yii\web\Controller
 
         return $this->render('list', ['list' => $dataProvider]);
     }
+    public function actionDelete(){
 
+        $request=Yii::$app->request->post('delete_id');
+        
+        $model=DefenceForces::find()->where(['id'=>$request])->one();
+        //DefenceForces::deleteAll()
+        if(isset($model)){
+            $model->delete();
+    
+    
+     
+           //$model->save();
+        }
+    
+    return $this->redirect(['defence-forces/list']);
+       }
+    
+       public function actionUpdate(){
+    
+        $request=Yii::$app->request->post('update_id');
+        
+        $model=DefenceForces::find()->where(['id'=>$request])->one();
+        
+        if(isset($model)){
+         
+    
+    
+           $model->name='';
+           $model->save();
+        }
+    
+    return $this->redirect(['defence-forces/list']);
+       }
 }

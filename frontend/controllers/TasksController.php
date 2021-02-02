@@ -52,12 +52,12 @@ class TasksController extends \yii\web\Controller
     }
     public function actionList()
     {
-        $list =Tasks::find()->where(['>','id',1]);//nagyobb az id-ja 1-nél//
+        $list =Tasks::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $list,
             'pagination' => [
-                'pageSize' => 5,
+                'pageSize' => 10,
             ],
         ]);
 

@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use app\models\Barracks;
+use app\models\DefenceForces;
 use yii\filters\AccessControl;
 use Yii;
 
@@ -20,7 +21,7 @@ class BarracksController extends \yii\web\Controller
                 'rules' => [
                   
                     [
-                        'actions' => ['index','add','list'],//csak user//
+                        'actions' => ['index','add','list','delete'],//csak user//
                         'allow' => true,
                         'roles' => ['@'],//bejelentkezett felfasználó//
                     ],
@@ -40,6 +41,17 @@ class BarracksController extends \yii\web\Controller
     {
         $barrack=new Barracks();
 
+        $item = DefenceForces::find()->all();
+
+        $items=[];
+
+        foreach($item as  $defence_force){
+            
+            $items[$defence_force->id]=$defence_force->location;
+        }
+
+        
+
         if(Yii::$app->request->post()&& $barrack->load(Yii::$app->request->post())){
             $barrack->save();
             $barrack= new Barracks();
@@ -47,7 +59,7 @@ class BarracksController extends \yii\web\Controller
 
 
 
-        return $this->render('add',['barrack' => $barrack]);
+        return $this->render('add',['barrack' => $barrack,'items'=>$items]);
     }
     public function actionList()
     {
@@ -56,9 +68,11 @@ class BarracksController extends \yii\web\Controller
         $dataProvider = new ActiveDataProvider([
             'query' => $list,
             'pagination' => [
-                'pageSize' => 5,
+                'pageSize' => 10,
             ],
         ]);
+
+
 
 
 
@@ -66,6 +80,40 @@ class BarracksController extends \yii\web\Controller
         return $this->render('list', ['list' => $dataProvider]);
     }
 
+   public function actionDelete(){
+
+    $request=Yii::$app->request->post('delete_id');
     
+    $model=Barracks::find()->where(['id'=>$request])->one();
+    //Barracks::deleteAll()
+    if(isset($model)){
+        $model->delete();
+
+
+ 
+       //$model->save();
+    }
+
+return $this->redirect(['barracks/list']);
+   }
+
+   public function actionUpdate(){
+
+    $request=Yii::$app->request->post('update_id');
+    
+    $model=Barracks::find()->where(['id'=>$request])->one();
+    
+    if(isset($model)){
+     
+
+
+       $model->name='';
+       $model->save();
+    }
+
+return $this->redirect(['barracks/list']);
+   }
+
+   
 
 }

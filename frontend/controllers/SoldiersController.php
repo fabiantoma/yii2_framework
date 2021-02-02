@@ -4,6 +4,8 @@ namespace frontend\controllers;
 
 
 use app\models\DefenceForces;
+use app\models\Companies;
+use app\models\Tasks;
 use app\models\Soldiers;
 use yii\filters\AccessControl;
 use Yii;
@@ -43,6 +45,25 @@ class SoldiersController extends \yii\web\Controller
     {
         $soldier = new Soldiers();
 
+        $item = Companies::find()->all();
+
+        $items=[];
+
+        foreach($item as  $sold){
+            
+           $items[$sold->id]=$sold->name;
+        }
+
+
+        $task_item = Tasks::find()->all();
+
+        $tasks_items=[];
+
+        foreach($task_item as  $tk){
+            
+           $tasks_items[$tk->id]=$tk->name;
+        }
+
         if(Yii::$app->request->post()&& $soldier->load(Yii::$app->request->post())){
             $soldier->save();
             $soldier= new Soldiers();
@@ -51,16 +72,16 @@ class SoldiersController extends \yii\web\Controller
 
 
 
-        return $this->render('add', ['soldier' => $soldier]);
+        return $this->render('add', ['soldier' => $soldier,'items'=>$items,'tasks_items'=>$tasks_items]);
     }
     public function actionList()
     {
-        $list =Soldiers::find()->where(['>','id',0]);//nagyobb az id-ja 1-nél//
+        $list =Soldiers::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $list,
             'pagination' => [
-                'pageSize' => 5,
+                'pageSize' => 10,
             ],
         ]);
 
