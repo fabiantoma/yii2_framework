@@ -136,9 +136,9 @@ class TicketsController extends \yii\web\Controller
           
         }
     
-    return $this->redirect(['tickets/list']);
-       }
-       public function actionUpdate(){
+        return $this->redirect(['tickets/list']);
+    }
+    public function actionUpdate(){
     
         $request=Yii::$app->request->post('update_id');
         
@@ -152,6 +152,23 @@ class TicketsController extends \yii\web\Controller
            $model->save();
         }
     
+        return $this->redirect(['tickets/list']);
+   }
+   public function actionClose(){
+    
+    $request=Yii::$app->request->post('id');
+    
+    $model=Tickets::find()->where(['id'=>$request])->one();
+    
+    if(isset($model)){
+     
+
+
+       $model->is_open='false';
+       $model->save();
+    }
+
     return $this->redirect(['tickets/list']);
-       }
+}
+
 }

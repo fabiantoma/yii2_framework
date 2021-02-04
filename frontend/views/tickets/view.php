@@ -9,7 +9,8 @@ use yii\grid\GridView;
 use yii\widgets\ActiveForm;
 use yii\grid\ActionColumn;
 
-
+$img = Html::img('@web/uploads/Beolvasott_20201024.png');                 
+$image = '<img src="'.$img.'" width="600" />';  
 
 ?>
 
@@ -42,7 +43,7 @@ use yii\grid\ActionColumn;
                                 <td><?php echo $ticket->description; ?></td>
                                 <td><?php echo $ticket->is_open; ?></td>
                                 <td><?php echo $ticket->date; ?></td>
-                                <td><?php echo $ticket->picture; ?></td>
+                                <td width="100" height="200"><?php echo Html::img('@web/uploads/pexels-alex-knight-2599244.jpg'); ?></td>
                                 <td><?= Html::submitButton('Close', ['class' => 'btn btn-primary']) ?></td>
                             </tr>
                     </tbody>
@@ -50,7 +51,7 @@ use yii\grid\ActionColumn;
     
 
 
-        <table border="2px" cellpadding="10" cellspacing="100" width="800" height="100">
+        <table border="2px" cellpadding="10" cellspacing="100" width="1000" height="100">
                     <thead>
                         <tr>
                             <th>Id</th>
@@ -68,8 +69,7 @@ use yii\grid\ActionColumn;
                                 <td><?php echo $commen->id; ?></td>
                                 <td><?php echo $commen->title; ?></td>
                                 <td><?php echo $commen->opinion; ?></td>
-                                <td><?php echo $ticket->date; ?></td>
-                                <td><?php echo Html::img(''); ?></td>
+                                <td><?php echo $commen->date; ?></td>
                             </tr>
                       <?php      
                     }
