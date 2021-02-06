@@ -130,13 +130,13 @@ class TicketsController extends \yii\web\Controller
         if(isset($model)){
             //ha létezik ez akkor törli//
             $model->delete();
-    
-    
-     
           
         }
     
     return $this->redirect(['tickets/list']);
+
+
+    
        }
        public function actionUpdate(){
     
