@@ -9,8 +9,8 @@ use yii\grid\GridView;
 use yii\widgets\ActiveForm;
 use yii\grid\ActionColumn;
 
-$img = Html::img('@web/uploads/Beolvasott_20201024.png');                 
-$image = '<img src="'.$img.'" width="600" />';  
+//$img ='@web/uploads/pexels-alex-knight-2599244.jpg';                 
+//$image = '<img src="'.$img.'" width="600" />';  
 
 ?>
 
@@ -33,7 +33,6 @@ $image = '<img src="'.$img.'" width="600" />';
                             <th>Is_open</th>
                             <th>Date</th>
                             <th>Picture</th>
-                            <th>Closing</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -43,8 +42,7 @@ $image = '<img src="'.$img.'" width="600" />';
                                 <td><?php echo $ticket->description; ?></td>
                                 <td><?php echo $ticket->is_open; ?></td>
                                 <td><?php echo $ticket->date; ?></td>
-                                <td width="100" height="200"><?php echo Html::img('@web/uploads/pexels-alex-knight-2599244.jpg'); ?></td>
-                                <td><?= Html::submitButton('Close', ['class' => 'btn btn-primary']) ?></td>
+                                <td width="200" height="200"><img src='@web/uploads<?php echo $ticket->picture;?>></td>
                             </tr>
                     </tbody>
                 </table>
@@ -77,10 +75,13 @@ $image = '<img src="'.$img.'" width="600" />';
                     </tbody>
         </table>
 
-
-
-
         <?php
+
+    
+
+
+
+
 
         $form = ActiveForm::begin(['method'=>'post']) ?>
         <?= $form->field($comment, 'title') ?>
@@ -91,7 +92,5 @@ $image = '<img src="'.$img.'" width="600" />';
             </div>
         </div>
         <?php ActiveForm::end()?>
-
-
 
 </html>

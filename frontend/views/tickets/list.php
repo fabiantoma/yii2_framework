@@ -28,5 +28,10 @@ echo GridView::widget([
             'template' => '{delete}',
             // you may configure additional properties here
         ],
+        [
+            'class' => ActionColumn::className(),
+            'template' => '{update}',
+            // you may configure additional properties here
+        ],
     ],
 ]);

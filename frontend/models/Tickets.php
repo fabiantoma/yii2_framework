@@ -46,7 +46,8 @@ class Tickets extends \yii\db\ActiveRecord
             [['is_open', 'user_id'], 'integer'],
             [['date'], 'safe'],
             [['imageFile'], 'file'],
-            [['title', 'description','picture'], 'string', 'max' => 255],
+            [['picture'],'file'],
+            [['title', 'description'], 'string', 'max' => 255],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
