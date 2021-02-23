@@ -50,12 +50,14 @@ class BarracksController extends \yii\web\Controller
             $items[$defence_force->id]=$defence_force->location;
         }
 
-        
 
         if(Yii::$app->request->post()&& $barrack->load(Yii::$app->request->post())){
+
+            Yii::$app->session->setFlash('success','You have the entered the data correctly');
             $barrack->save();
             $barrack= new Barracks();
         }
+
 
 
 

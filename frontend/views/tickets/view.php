@@ -9,8 +9,7 @@ use yii\grid\GridView;
 use yii\widgets\ActiveForm;
 use yii\grid\ActionColumn;
 
-//$img ='@web/uploads/pexels-alex-knight-2599244.jpg';                 
-//$image = '<img src="'.$img.'" width="600" />';  
+
 
 ?>
 
@@ -42,7 +41,7 @@ use yii\grid\ActionColumn;
                                 <td><?php echo $ticket->description; ?></td>
                                 <td><?php echo $ticket->is_open; ?></td>
                                 <td><?php echo $ticket->date; ?></td>
-                                <td width="200" height="200"><img src='@web/uploads<?php echo $ticket->picture;?>></td>
+                                <td width="200" height="200"><?php echo "<img  width=200 src='/$ticket->picture';"?></td>
                             </tr>
                     </tbody>
                 </table>
@@ -78,10 +77,6 @@ use yii\grid\ActionColumn;
         <?php
 
     
-
-
-
-
 
         $form = ActiveForm::begin(['method'=>'post']) ?>
         <?= $form->field($comment, 'title') ?>

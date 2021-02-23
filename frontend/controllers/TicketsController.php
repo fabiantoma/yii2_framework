@@ -132,10 +132,6 @@ class TicketsController extends \yii\web\Controller
     }
 
 
-    
-
-
-
    public function actionUpdate(){
     
     $request=Yii::$app->request->get('update_id');
@@ -144,7 +140,7 @@ class TicketsController extends \yii\web\Controller
     
     if(isset($model)){
      
-       $model->is_open='false';
+       //$model->is_open=false;
      
        $model->save();
     }
