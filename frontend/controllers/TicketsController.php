@@ -116,44 +116,49 @@ class TicketsController extends \yii\web\Controller
 
 
 
-    public function actionDelete(){
+    public function actionDelete()
+    {
 
         $request=Yii::$app->request->get('id');
         
         $model=Tickets::find()->where(['id'=>$request])->andWhere(['user_id'=>Yii::$app->user->id])->one();
         // kigyűjtjük az összes hibajegyeket ahol az id az az ehhez való user id,majd hozzárendeljük a one függvényt//
-        if(isset($model)){
+        if(isset($model))
+        {
             //ha létezik ez akkor törli//
             $model->delete();
           
         }
     
-    return $this->redirect(['tickets/list']);
+        return $this->redirect(['tickets/list']);
 
+    }
 
-    
-       }
-       public function actionUpdate(){
+    public function actionUpdate()
+    {
     
         $request=Yii::$app->request->post('update_id');
         
         $model=Tickets::find()->where(['id'=>$request])->one();
+    
+        $request=Yii::$app->request->get('update_id');
         
-        if(isset($model)){
-         
-    
-    $request=Yii::$app->request->get('update_id');
-    
-    $model=Tickets::find()->where(['id'=>$request])->andWhere(['user_id'=>Yii::$app->user->id])->one();
-    
-    if(isset($model)){
-     
-       //$model->is_open=false;
-     
-       $model->save();
+        $model=Tickets::find()->where(['id'=>$request])->andWhere(['user_id'=>Yii::$app->user->id])->one();
+        
+        if(isset($model))
+        {
+        
+        //$model->is_open=false;
+        
+        $model->save();
+         }
+
+        return $this->redirect(['tickets/list']);
     }
 
-    return $this->redirect(['tickets/list']);
-}
+    public function actionTest()
+    {
+        // teszt
+    }
 
 }
