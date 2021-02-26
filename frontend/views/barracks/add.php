@@ -4,9 +4,16 @@
 /* @var $barrack Barracks */
 use yii\helpers\Html;
 use frontend\models\Barracks;
-
 use yii\widgets\ActiveForm;
 
+?>
+<?php
+  if(Yii::$app->session->getFlash('success')){
+      echo Yii::$app->session->hasFlash('success');
+  }
+?>
+
+<?php
 $form = ActiveForm::begin([]) ?>
     <?= $form->field($barrack, 'name') ?>
     <?= $form->field($barrack, 'number') ?>

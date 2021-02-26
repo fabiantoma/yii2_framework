@@ -61,6 +61,15 @@ class LoginForm extends Model
         
         return false;
     }
+    public function loginAdmin()
+    {
+        if ($this->validate()) {
+            return Yii::$app->user->login($this->getAdmin(), $this->rememberMe ? 3600 * 24 * 30 : 0);
+        }
+        
+        return false;
+    }
+    
 
     /**
      * Finds user by [[username]]
@@ -75,4 +84,15 @@ class LoginForm extends Model
 
         return $this->_user;
     }
+//admin beállítása
+    protected function getAdmin()
+    {
+        if ($this->_user === null) {
+            $this->_user = User::findAdminByUsername($this->username);
+        }
+
+        return $this->_user;
+    }
+
+
 }

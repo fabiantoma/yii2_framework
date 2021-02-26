@@ -30,7 +30,22 @@ echo GridView::widget([
         ],
         [
             'class' => ActionColumn::className(),
-            'template' => '{update}',
+            'buttons'=>[
+                'update' => function ($url, $model, $key) {
+                    return   Html::a('Rendel', '/site/assign?id='.$model->id) ;
+                },
+            ]
+           
+            // you may configure additional properties here
+        ],
+        [
+            'class' => ActionColumn::className(),
+            'buttons'=>[
+                'update' => function ($url, $model, $key) {
+                    return   Html::a('Close', '/site/close?id='.$model->id) ;
+                },
+            ]
+           
             // you may configure additional properties here
         ],
     ],

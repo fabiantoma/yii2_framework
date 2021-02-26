@@ -26,7 +26,7 @@ class TicketsController extends \yii\web\Controller
                 'rules' => [
                   
                     [
-                        'actions' => ['index','add','list','delete','view'],//csak user//
+                        'actions' => ['index','add','list','delete','view','update'],//csak user//
                         'allow' => true,
                         'roles' => ['@'],//bejelentkezett felfasználó//
                     ],
@@ -92,18 +92,14 @@ class TicketsController extends \yii\web\Controller
             $comment->user_id = Yii::$app->user->id;
             $comment->tickets_id = $request;
               
-            
-           
+        
             if ($comment->validate()==true&& $comment->save()==true){
                 $comment= new Comments();
             }
         }
        
-
         $ticket= new Tickets();
 
-        
-        
         if(isset($request)){
             $ticket = Tickets::find()->where(['id'=>$request])->andWhere(['user_id'=>Yii::$app->user->id])->one();;
             $comments= Comments::find()->where(['tickets_id'=>$ticket->id])->all();
@@ -117,7 +113,6 @@ class TicketsController extends \yii\web\Controller
 //actionView(){   } id alapján lekérdezni a ticketet,csak a saját userhez szabad,andwhere feltétel
 //lekérdezni az ehhez a tickethez tartozó kommenteket,comments->find()->where ticket id =a visszakapott ticket-nek az idjaval
 //átadni a viewnak és aforech-el kilistázni 
-
 
 
 
@@ -147,11 +142,18 @@ class TicketsController extends \yii\web\Controller
         if(isset($model)){
          
     
+    $request=Yii::$app->request->get('update_id');
     
-           $model->name='';
-           $model->save();
-        }
+    $model=Tickets::find()->where(['id'=>$request])->andWhere(['user_id'=>Yii::$app->user->id])->one();
     
+    if(isset($model)){
+     
+       //$model->is_open=false;
+     
+       $model->save();
+    }
+
     return $this->redirect(['tickets/list']);
-       }
+}
+
 }
