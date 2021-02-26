@@ -128,11 +128,19 @@ class TicketsController extends \yii\web\Controller
           
         }
     
-        return $this->redirect(['tickets/list']);
-    }
+    return $this->redirect(['tickets/list']);
 
 
-   public function actionUpdate(){
+    
+       }
+       public function actionUpdate(){
+    
+        $request=Yii::$app->request->post('update_id');
+        
+        $model=Tickets::find()->where(['id'=>$request])->one();
+        
+        if(isset($model)){
+         
     
     $request=Yii::$app->request->get('update_id');
     
