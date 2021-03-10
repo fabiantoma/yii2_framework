@@ -16,6 +16,10 @@ echo GridView::widget([
         'title',
         'description',
         'picture',
+        [
+            'attribute' => 'admin',
+            'value' => 'admin.username'
+        ],
         'is_open:boolean',
         'date',
         [

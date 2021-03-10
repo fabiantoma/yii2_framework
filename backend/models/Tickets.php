@@ -6,7 +6,6 @@ use Yii;
 use common\models\User;
 
 
-
 /**
  * This is the model class for table "tickets".
  *
@@ -17,9 +16,12 @@ use common\models\User;
  * @property int|null $is_open
  * @property string $date
  * @property int $user_id
+ * @property int $admin_id
  *
  * @property Comments[] $comments
  * @property User $user
+ *  * @property User $admin
+
  */
 class Tickets extends \yii\db\ActiveRecord
 {
@@ -44,7 +46,7 @@ class Tickets extends \yii\db\ActiveRecord
     {
         return [
             [['title', 'description', 'date', 'user_id'], 'required'],
-            [['is_open', 'user_id'], 'integer'],
+            [['is_open', 'user_id','admin_id'], 'integer'],
             [['date'], 'safe'],
             [['imageFile'], 'file'],
             [['picture'],'file'],
@@ -100,6 +102,11 @@ class Tickets extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    public function getAdmin()
+    {
+        return $this->hasOne(User::className(), ['id' => 'admin_id']);
     }
 
     public function getImageurl()

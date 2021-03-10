@@ -28,7 +28,7 @@ class SiteController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index','list-tickets','assign'],
+                        'actions' => ['logout', 'index','list-tickets','assign','close'],
                         'allow' => true,
                         'roles' => ['@'],//bejelentkezett
                     ],
@@ -129,12 +129,12 @@ class SiteController extends Controller
     public function actionClose(){
         $id=Yii::$app->request->get('id');
         $ticket=Tickets::find()->where(['id'=>$id])->one();
-
         if(isset($ticket)){
      
             $ticket->is_open=false;
           
-            $ticket->save();
+            $ticket->save(false);
+
          }
 
         return $this->redirect(['site/list-tickets']);
